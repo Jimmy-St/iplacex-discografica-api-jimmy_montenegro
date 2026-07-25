@@ -1,14 +1,17 @@
-# --- 1: Construccii´on ---
+# ---  1: Construcción ---
 FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /app
 COPY . .
-# Compilación
+
+# PERMISO
+RUN chmod +x ./gradlew
+
+# Compila 
 RUN ./gradlew bootJar -x test
 
-# --- 2: Ejecución ---
+# --- 2: Ejecucio´n ---
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-# Copia el jar 
 COPY --from=builder /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
